@@ -1,7 +1,14 @@
 package fr.ubo.dosi.covidstats.entities;
 
+/**
+ * 
+ * @author AymaneBOUJELLABA & FerdaousAKKAR
+ *
+ */
 public class CovidInfo
 {
+	// Date,Pays,Infections,Deces,Guerisons,TauxDeces,TauxGuerison,TauxInfection
+
 	private String date;
 	private String pays;
 	private Integer infections;
@@ -10,8 +17,25 @@ public class CovidInfo
 	private double tauxDeces;
 	private double tauxGuerison;
 	private double tauxInfection;
-	
-	
+	/**
+	 * 
+	 */
+	public CovidInfo()
+	{
+		super();
+	}
+
+	/**
+	 * 
+	 * @param date
+	 * @param pays
+	 * @param infections
+	 * @param deces
+	 * @param guerisons
+	 * @param tauxDeces
+	 * @param tauxGuerison
+	 * @param tauxInfection
+	 */
 	public CovidInfo(String date, String pays, Integer infections, Integer deces, Integer guerisons, double tauxDeces,
 			double tauxGuerison, double tauxInfection)
 	{
@@ -26,12 +50,12 @@ public class CovidInfo
 		this.tauxInfection = tauxInfection;
 	}
 	
-	public String getString() 
+	public String getDate() 
 	{
 		return date;
 	}
 	
-	public void setString(String date) 
+	public void setDate(String date) 
 	{
 		this.date = date;
 	}
@@ -105,4 +129,13 @@ public class CovidInfo
 	{
 		this.tauxInfection = tauxInfection;
 	}
+
+	@Override
+	public String toString() {
+		return "CovidInfo [date=" + date + ", pays=" + pays + ", infections=" + infections + ", tauxInfection="
+				+ tauxInfection + "]";
+	}
+	
+	
+	
 }

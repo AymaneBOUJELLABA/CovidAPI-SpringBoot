@@ -3,7 +3,6 @@ package fr.ubo.dosi.covidstats.db;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.core.io.ClassPathResource;
@@ -14,6 +13,12 @@ import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 
 import fr.ubo.dosi.covidstats.entities.CovidInfo;
 
+/**
+ * @author AymaneBOUJELLABA & FerdaousAKKAR
+ * 
+ * Cette class nous permet de lire le fichier csv et récupérer les données sous forme d'un ArrayList<CovidInfo>
+ */
+
 public class PaysCSVDB
 {
 	private static PaysCSVDB instance = null;
@@ -21,9 +26,13 @@ public class PaysCSVDB
 	
 	private PaysCSVDB()
 	{
-		
+		data = ((ArrayList<CovidInfo>)loadObjectList(CovidInfo.class, "data.csv"));
 	}
 	
+	/**
+	 * 
+	 * @return l'instance de la classe Singelton PaysCSVDB
+	 */
 	public static PaysCSVDB getInstance()
 	{
 		if(instance == null)
@@ -32,7 +41,15 @@ public class PaysCSVDB
 		return instance;
 	}
 	
-	public <T> List<T> loadObjectList(Class<T> type, String fileName)
+	/**
+	 * fonction qui permet de lire un fichier csv et retourner la liste en focntion d'un type
+	 * 
+	 * @param <T>
+	 * @param type 
+	 * @param fileName
+	 * @return List<T>
+	 */
+	private <T> List<T> loadObjectList(Class<T> type, String fileName)
 	{
 		try
 	    {
@@ -46,5 +63,12 @@ public class PaysCSVDB
 	        System.err.println("Error occurred while loading object list from file " + fileName +" exception : "+e);
 	        return Collections.emptyList();
 	    }
+	}
+
+	/**
+	 * @return the data
+	 */
+	public ArrayList<CovidInfo> getData() {
+		return data;
 	}
 }
