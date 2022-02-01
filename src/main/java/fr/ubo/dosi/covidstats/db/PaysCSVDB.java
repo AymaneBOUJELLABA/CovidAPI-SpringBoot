@@ -1,6 +1,7 @@
 package fr.ubo.dosi.covidstats.db;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +17,7 @@ import fr.ubo.dosi.covidstats.entities.CovidInfo;
 public class PaysCSVDB
 {
 	private static PaysCSVDB instance = null;
-	//private HashMap<datePays, CovidInfo> data = new HashMap<datePays, CovidInfo>();
+	private ArrayList<CovidInfo> data = new ArrayList<>();
 	
 	private PaysCSVDB()
 	{
