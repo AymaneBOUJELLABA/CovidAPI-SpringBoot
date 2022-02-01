@@ -1,10 +1,8 @@
 package fr.ubo.dosi.covidstats.entities;
 
-import java.util.Date;
-
 public class CovidInfo
 {
-	private Date date;
+	private String date;
 	private String pays;
 	private Integer infections;
 	private Integer deces;
@@ -14,7 +12,7 @@ public class CovidInfo
 	private double tauxInfection;
 	
 	
-	public CovidInfo(Date date, String pays, Integer infections, Integer deces, Integer guerisons, double tauxDeces,
+	public CovidInfo(String date, String pays, Integer infections, Integer deces, Integer guerisons, double tauxDeces,
 			double tauxGuerison, double tauxInfection)
 	{
 		super();
@@ -28,12 +26,12 @@ public class CovidInfo
 		this.tauxInfection = tauxInfection;
 	}
 	
-	public Date getDate() 
+	public String getString() 
 	{
 		return date;
 	}
 	
-	public void setDate(Date date) 
+	public void setString(String date) 
 	{
 		this.date = date;
 	}
@@ -107,6 +105,4 @@ public class CovidInfo
 	{
 		this.tauxInfection = tauxInfection;
 	}
-	
-	
 }
