@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository;
 
 import fr.ubo.dosi.covidstats.entities.CovidInfo;
 
-@Repository
 public interface CovidDataRepository
 {
 	public List<CovidInfo> findAllByPays(String pays);

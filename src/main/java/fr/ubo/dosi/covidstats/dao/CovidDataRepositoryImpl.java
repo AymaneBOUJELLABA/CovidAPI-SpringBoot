@@ -6,9 +6,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import fr.ubo.dosi.covidstats.db.PaysCSVDB;
 import fr.ubo.dosi.covidstats.entities.CovidInfo;
 
+@Repository
 public class CovidDataRepositoryImpl implements CovidDataRepository {
 
 	private PaysCSVDB db = PaysCSVDB.getInstance();
@@ -46,7 +49,7 @@ public class CovidDataRepositoryImpl implements CovidDataRepository {
 		
 		for(CovidInfo c : db.getData())
 		{
-			if(c.getPays().equals(pays) && c.getDate().equals(d))
+			if(c.getPays().equals(pays) && c.getDate().equals(d.toString()))
 				return c;
 		}
 		

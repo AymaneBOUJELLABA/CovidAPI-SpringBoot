@@ -68,7 +68,8 @@ public class PaysCSVDB
 	/**
 	 * @return the data
 	 */
-	public ArrayList<CovidInfo> getData() {
+	public ArrayList<CovidInfo> getData()
+	{
 		return data;
 	}
 }
