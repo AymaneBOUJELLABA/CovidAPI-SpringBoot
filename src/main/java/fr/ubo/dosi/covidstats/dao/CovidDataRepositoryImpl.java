@@ -11,9 +11,20 @@ import org.springframework.stereotype.Repository;
 import fr.ubo.dosi.covidstats.db.PaysCSVDB;
 import fr.ubo.dosi.covidstats.entities.CovidInfo;
 
+/**
+ * 
+ * @author FAYE
+ * 
+ * Cette class est l'implementation du repository <a>CovidDataRepository</a>
+ *
+ * @see {@link fr.ubo.dosi.covidstats.dao.CovidDataRepository}
+ */
 @Repository
 public class CovidDataRepositoryImpl implements CovidDataRepository {
 
+	/**
+	 * l'instance du PaysCSVDB
+	 */
 	private PaysCSVDB db = PaysCSVDB.getInstance();
 	
 	@Override
@@ -23,7 +34,7 @@ public class CovidDataRepositoryImpl implements CovidDataRepository {
 		
 		for(CovidInfo c : db.getData())
 		{
-			if(c.getPays().equals(pays))
+			if(c.getPays().toLowerCase().contains(pays.toLowerCase()))
 				result.add(c);
 		}
 		
@@ -35,7 +46,7 @@ public class CovidDataRepositoryImpl implements CovidDataRepository {
 	{
 		for(CovidInfo c : db.getData())
 		{
-			if(c.getPays().equals(pays) && c.getDate().equals(date))
+			if(c.getPays().toLowerCase().contains(pays.toLowerCase()) && c.getDate().equals(date))
 				return c;
 		}
 		
