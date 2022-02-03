@@ -9,6 +9,8 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import fr.ubo.dosi.covidstats.entities.CovidInfo;
 
@@ -20,6 +22,8 @@ import fr.ubo.dosi.covidstats.entities.CovidInfo;
 
 public class PaysCSVDB
 {
+	private static Logger logger = LogManager.getLogger(PaysCSVDB.class);
+	
 	private static final String fileurl = "https://coronavirus.politologue.com/data/coronavirus/coronacsv.aspx?format=csv&t=pays";
 	private static PaysCSVDB instance = null;
 	private ArrayList<CovidInfo> data = new ArrayList<>();
@@ -41,9 +45,12 @@ public class PaysCSVDB
 	}
 	public void reloadData()
 	{
+		logger.info("Rechargement de données depuis l'url",fileurl);
 		boolean done = downloadFileFromUrl();
 		if(done)
 			data = (ArrayList<CovidInfo>) getRealInfos(this.readCSVFile("data.csv"));
+		
+		logger.error("Erreur dans le rechargemengt de données",data);
 	}
 	/**
 	 * Fonction qui télécharge le fichier d'apres un lien
@@ -51,14 +58,17 @@ public class PaysCSVDB
 	 */
 	private static boolean downloadFileFromUrl()
 	{
+	
 		try
 		{
 			URL url = new URL(fileurl);
 	        File file = new File("data.csv");
 			FileUtils.copyURLToFile(url,file,60*1000,30*1000);
+			logger.info("Télechargement de fichier csv depuis l'url " ,file,fileurl);
 			return true;
 		}catch(Exception e)
 		{
+			logger.error("Erreur dans le télechargement de fichier depuis url",fileurl,e);
 			return false;
 		}
 	}
@@ -102,9 +112,11 @@ public class PaysCSVDB
 						Double.parseDouble(data[7])
 					);
 				result.add(d);
+				logger.info("la lecture de fichier depuis url on l'ajoutant dans une arrayList");
 			}
 		}catch(Exception e)
 		{
+			logger.error("Erreur dans la lecture de fichier depuis url",e);
 			System.err.println("Erreur downloadCSVfile: " + e);
 		}
         
@@ -130,7 +142,9 @@ public class PaysCSVDB
 		
 		//trier l'input par pays
 		input.sort(Comparator.comparing(CovidInfo::getPays));
-	
+		
+		logger.info("comparison de donnée de chaque pays pour afficher seulement les infictions actuelle");
+		
 		//vérifier si la liste n'est pas vide
 		if(!input.isEmpty())
 		{
@@ -156,32 +170,10 @@ public class PaysCSVDB
 					newList.add(u1);
 			}
 		}
+		else
+			logger.error("Erreur dans getRealinfo, liste input est vide");
+		
 		return newList;
 	}
-	
-	
-	
-	/**
-	 * fonction qui permet de lire un fichier csv et retourner la liste en fonction d'un type
-	 * 
-	 * @param <T>
-	 * @param type 
-	 * @param fileName
-	 * @return List<T>
-	 */
-	/*private <T> List<T> loadObjectList(Class<T> type, String fileName)
-	{
-		try
-	    {
-	    	CsvSchema bootstrapSchema = CsvSchema.emptySchema().withHeader();
-	        CsvMapper mapper = new CsvMapper();
-	        File file = new ClassPathResource(fileName).getFile();
-	        MappingIterator<T> readValues = mapper.reader(type).with(bootstrapSchema).readValues(file);
-	        return readValues.readAll();
-	    } catch (Exception e)
-	    {
-	        System.err.println("Error occurred while loading object list from file " + fileName +" exception : "+e);
-	        return Collections.emptyList();
-	    }
-	}*/
+
 }
