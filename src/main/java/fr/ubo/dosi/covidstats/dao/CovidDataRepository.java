@@ -2,8 +2,6 @@ package fr.ubo.dosi.covidstats.dao;
 
 import java.util.List;
 
-import org.springframework.stereotype.Repository;
-
 import fr.ubo.dosi.covidstats.entities.CovidInfo;
 
 /**
