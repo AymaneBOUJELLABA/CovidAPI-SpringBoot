@@ -16,7 +16,7 @@ import fr.ubo.dosi.covidstats.entities.CovidInfo;
 
 /**
  * @author AymaneBOUJELLABA & FerdaousAKKAR
- * 
+ * 	
  * Cette class nous permet de lire le fichier csv et récupérer les données sous forme d'un ArrayList<CovidInfo>
  */
 
@@ -49,8 +49,8 @@ public class PaysCSVDB
 		boolean done = downloadFileFromUrl();
 		if(done)
 			data = (ArrayList<CovidInfo>) getRealInfos(this.readCSVFile("data.csv"));
-		
-		logger.error("Erreur dans le rechargemengt de données",data);
+		else
+			logger.error("Erreur dans le rechargemengt de données",data);
 	}
 	/**
 	 * Fonction qui télécharge le fichier d'apres un lien
@@ -61,10 +61,11 @@ public class PaysCSVDB
 	
 		try
 		{
+			logger.info("Début du Téléchargement du fichier csv depuis l'url!");
 			URL url = new URL(fileurl);
 	        File file = new File("data.csv");
 			FileUtils.copyURLToFile(url,file,60*1000,30*1000);
-			logger.info("Télechargement de fichier csv depuis l'url " ,file,fileurl);
+			logger.info("Télechargement de fichier csv depuis l'url avec succés :  " ,file,fileurl);
 			return true;
 		}catch(Exception e)
 		{
@@ -79,6 +80,8 @@ public class PaysCSVDB
 	 */
 	private List<CovidInfo> readCSVFile(String fileName)
 	{
+
+		logger.info(".*la lecture de fichier depuis url en l'ajoutant dans un arrayList.*");
 		List<CovidInfo> result = new ArrayList<CovidInfo>();
 		try
 		{
@@ -94,7 +97,6 @@ public class PaysCSVDB
 			//boucle tant que le EOF not atteint faire
 			while((row = csvReader.readLine())!=null)
 			{
-				
 				//skip les 8 premiers lignes
 				i++;
 				if(i<=8)
@@ -112,8 +114,8 @@ public class PaysCSVDB
 						Double.parseDouble(data[7])
 					);
 				result.add(d);
-				logger.info("la lecture de fichier depuis url on l'ajoutant dans une arrayList");
 			}
+			csvReader.close();
 		}catch(Exception e)
 		{
 			logger.error("Erreur dans la lecture de fichier depuis url",e);
