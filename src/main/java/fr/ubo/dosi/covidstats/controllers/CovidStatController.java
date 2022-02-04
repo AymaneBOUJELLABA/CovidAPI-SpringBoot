@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.ubo.dosi.covidstats.dao.CovidDataRepository;
+import fr.ubo.dosi.covidstats.db.PaysCSVDB;
 import fr.ubo.dosi.covidstats.entities.CovidInfo;
 
 
@@ -28,6 +31,9 @@ import fr.ubo.dosi.covidstats.entities.CovidInfo;
 @RequestMapping("/api")
 public class CovidStatController
 {
+	
+	private static Logger logger = LogManager.getLogger(PaysCSVDB.class);
+	
 	@Autowired
 	CovidDataRepository dataDAO;
 	
@@ -41,7 +47,7 @@ public class CovidStatController
 	{
 		//initialiser la liste du résultat
 		List<CovidInfo> r = new ArrayList<CovidInfo>();
-		
+		logger.info("");
 		try
 		{
 			//faire l'appèle au dao
