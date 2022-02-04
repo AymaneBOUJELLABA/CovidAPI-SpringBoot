@@ -24,6 +24,7 @@ public class HttpRequestTest
 	public void shouldReturnNotEmptyListAllPaysData() throws Exception
 	{
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/api/oneCountryData?CountryName=maroc"))
+								.andDo(print())
 								.andExpect(status().isOk())
 								.andExpect(MockMvcResultMatchers.jsonPath("$[0].pays").value("Maroc"));
 	}
@@ -33,8 +34,8 @@ public class HttpRequestTest
 	{
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/api/oneCountryDataWithDate?CountryName=maroc&date=2022-01-31"))
 								.andExpect(status().isOk())
-								.andExpect(MockMvcResultMatchers.jsonPath("$[0].pays").value("Maroc"))
-								.andExpect(MockMvcResultMatchers.jsonPath("$[0].date").value("2022-01-31"));
+								.andExpect(MockMvcResultMatchers.jsonPath("$.pays").value("Maroc"))
+								.andExpect(MockMvcResultMatchers.jsonPath("$.date").value("2022-01-31"));
 	}
 	
 	@Test
@@ -43,7 +44,7 @@ public class HttpRequestTest
 		LocalDate d = LocalDate.now();
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/api/todayCountryData?CountryName=maroc"))
 								.andExpect(status().isOk())
-								.andExpect(MockMvcResultMatchers.jsonPath("$[0].date").value(d.toString()))
-								.andExpect(MockMvcResultMatchers.jsonPath("$[0].pays").value("Maroc"));
+								.andExpect(MockMvcResultMatchers.jsonPath("$.date").value(d.toString()))
+								.andExpect(MockMvcResultMatchers.jsonPath("$.pays").value("Maroc"));
 	}
 }
