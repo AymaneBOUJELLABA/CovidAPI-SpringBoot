@@ -14,7 +14,6 @@ import fr.ubo.dosi.covidstats.entities.CovidInfo;
 public interface CovidDataRepository
 {
 	/**
-	 * 
 	 * @param pays
 	 * @return la liste des informations de ce pays
 	 */

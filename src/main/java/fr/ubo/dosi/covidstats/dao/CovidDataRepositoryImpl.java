@@ -34,6 +34,8 @@ public class CovidDataRepositoryImpl implements CovidDataRepository {
 		{
 			if(c.getPays().toLowerCase().contains(pays.toLowerCase()))
 				result.add(c);
+			else
+				continue;
 		}
 		
 		return result;
@@ -46,6 +48,8 @@ public class CovidDataRepositoryImpl implements CovidDataRepository {
 		{
 			if(c.getPays().toLowerCase().contains(pays.toLowerCase()) && c.getDate().equals(date))
 				return c;
+			else
+				continue;
 		}
 		
 		return null;
@@ -58,8 +62,10 @@ public class CovidDataRepositoryImpl implements CovidDataRepository {
 		
 		for(CovidInfo c : db.getData())
 		{
-			if(c.getPays().equals(pays) && c.getDate().equals(d.toString()))
+			if(c.getPays().toLowerCase().contains(pays.toLowerCase()) && c.getDate().equals(d.toString()))
 				return c;
+			else
+				continue;
 		}
 		
 		return null;

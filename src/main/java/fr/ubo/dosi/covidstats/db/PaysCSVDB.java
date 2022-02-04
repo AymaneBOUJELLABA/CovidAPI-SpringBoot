@@ -25,6 +25,7 @@ public class PaysCSVDB
 	private static Logger logger = LogManager.getLogger(PaysCSVDB.class);
 	
 	private static final String fileurl = "https://coronavirus.politologue.com/data/coronavirus/coronacsv.aspx?format=csv&t=pays";
+	private static final String filename = "data.csv";
 	private static PaysCSVDB instance = null;
 	private ArrayList<CovidInfo> data = new ArrayList<>();
 
@@ -46,30 +47,29 @@ public class PaysCSVDB
 	public void reloadData()
 	{
 		logger.info("Rechargement de données depuis l'url",fileurl);
-		boolean done = downloadFileFromUrl();
+		boolean done = downloadFileFromUrl(fileurl,filename);
 		if(done)
-			data = (ArrayList<CovidInfo>) getRealInfos(this.readCSVFile("data.csv"));
+			data = (ArrayList<CovidInfo>) getRealInfos(this.readCSVFile(filename));
 		else
-			logger.error("Erreur dans le rechargemengt de données",data);
+			logger.error("Erreur dans le rechargement de données",filename,fileurl);
 	}
 	/**
 	 * Fonction qui télécharge le fichier d'apres un lien
 	 * @return
 	 */
-	private static boolean downloadFileFromUrl()
+	public static boolean downloadFileFromUrl(String fileurl,String filename)
 	{
-	
 		try
 		{
 			logger.info("Début du Téléchargement du fichier csv depuis l'url!");
 			URL url = new URL(fileurl);
-	        File file = new File("data.csv");
+	        File file = new File(filename);
 			FileUtils.copyURLToFile(url,file,60*1000,30*1000);
-			logger.info("Télechargement de fichier csv depuis l'url avec succés :  " ,file,fileurl);
+			logger.info("Télechargement de fichier csv depuis l'url avec succés :  "  + file + fileurl);
 			return true;
 		}catch(Exception e)
 		{
-			logger.error("Erreur dans le télechargement de fichier depuis url",fileurl,e);
+			logger.error("Erreur dans le télechargement de fichier depuis url" + fileurl,e);
 			return false;
 		}
 	}
@@ -81,7 +81,7 @@ public class PaysCSVDB
 	private List<CovidInfo> readCSVFile(String fileName)
 	{
 
-		logger.info(".*la lecture de fichier depuis url en l'ajoutant dans un arrayList.*");
+		logger.info("Début de la lecture du fichier csv " , fileName);
 		List<CovidInfo> result = new ArrayList<CovidInfo>();
 		try
 		{
@@ -93,7 +93,7 @@ public class PaysCSVDB
 			String row = "";
 			//counter pour éliminer les 8 premiers lignes
 			short i = 0;
-			
+			logger.info("Extraction des données du fichier en cours....");
 			//boucle tant que le EOF not atteint faire
 			while((row = csvReader.readLine())!=null)
 			{
@@ -115,11 +115,11 @@ public class PaysCSVDB
 					);
 				result.add(d);
 			}
+			logger.info("Extraction des données terminé! ---- " +result.size() +" lignes lus!");
 			csvReader.close();
 		}catch(Exception e)
 		{
 			logger.error("Erreur dans la lecture de fichier depuis url",e);
-			System.err.println("Erreur downloadCSVfile: " + e);
 		}
         
 		return result;
@@ -140,12 +140,10 @@ public class PaysCSVDB
 	private List<CovidInfo> getRealInfos(List<CovidInfo> input)
 	{
 		// créer une nouvelle list vide
-		List<CovidInfo> newList = new ArrayList<CovidInfo>();
-		
+		List<CovidInfo> newList = new ArrayList<CovidInfo>();	
 		//trier l'input par pays
 		input.sort(Comparator.comparing(CovidInfo::getPays));
-		
-		logger.info("comparison de donnée de chaque pays pour afficher seulement les infictions actuelle");
+		logger.info("comparison de donnée de chaque pays pour afficher seulement les inféctions actuelle");
 		
 		//vérifier si la liste n'est pas vide
 		if(!input.isEmpty())
@@ -177,5 +175,4 @@ public class PaysCSVDB
 		
 		return newList;
 	}
-
 }
