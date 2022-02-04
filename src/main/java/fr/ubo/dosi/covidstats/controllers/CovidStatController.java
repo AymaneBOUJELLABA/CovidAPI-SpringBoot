@@ -31,8 +31,10 @@ import fr.ubo.dosi.covidstats.entities.CovidInfo;
 @RequestMapping("/api")
 public class CovidStatController
 {
-	
-	private static Logger logger = LogManager.getLogger(PaysCSVDB.class);
+	/**
+	 * Le logger pour le controller CovidStatController
+	 */
+	private static Logger logger = LogManager.getLogger(CovidStatController.class);
 	
 	@Autowired
 	CovidDataRepository dataDAO;
@@ -47,7 +49,7 @@ public class CovidStatController
 	{
 		//initialiser la liste du résultat
 		List<CovidInfo> r = new ArrayList<CovidInfo>();
-		logger.info("");
+		logger.info("Lancement de controller oneCountryData !");
 		try
 		{
 			//faire l'appèle au dao
@@ -55,9 +57,12 @@ public class CovidStatController
 			
 		}catch(Exception e)
 		{
+			logger.error("Erreur dans le controller oneCountryData !");
 			System.out.println("Erreur : " + e);
 		}
 		
+
+		logger.info("Fin de controller oneCountryData !");
 		return r;
 	}
 	
@@ -70,17 +75,24 @@ public class CovidStatController
 	@GetMapping("/oneCountryDataWithDate")
 	public CovidInfo oneCountryWithDate(@RequestParam String CountryName, @RequestParam String date)
 	{
+		//initialiser l'objet du résultat
 		CovidInfo r = new CovidInfo();
+
+		logger.info("Lancement de controller oneCountryDataWithDate !");
 		try
 		{
+			//formater la date donnée
 			LocalDate d = LocalDate.parse(date);
 			
+			//faire l'appel au DAO
 			r = dataDAO.findAllByPaysAndDate(CountryName, d.toString());
 		}catch(Exception e)
 		{
+			logger.error("Erreur dans controller oneCountryDataWithDate !");
 			System.out.println("Erreur : " + e);
 		}
 		
+		logger.info("Fin de controller oneCountryDataWithDate !");
 		return r;
 	}
 	
@@ -92,17 +104,24 @@ public class CovidStatController
 	@GetMapping("/todayCountryData")
 	public CovidInfo todayCountryData(@RequestParam String CountryName)
 	{
+		logger.info("Lancement de controller todayCountryData!");
+		
+		//initialiser l'objet du résultat
 		CovidInfo r = new CovidInfo();
 		try
 		{
+			//récupérer la date de jour actuelle
 			LocalDate d = LocalDate.now();
 			
+			//faire l'appel au DAO
 			r = dataDAO.findAllByPaysAndDate(CountryName, d.toString());
 		}catch(Exception e)
 		{
+			logger.error("Erreur dans controller TodayCountryData!");
 			System.out.println("Erreur : " + e);
 		}
 		
+		logger.info("Fin de controller TodayCountryData!");
 		return r;
 	}
 }

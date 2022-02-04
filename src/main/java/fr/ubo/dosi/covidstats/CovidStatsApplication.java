@@ -17,14 +17,24 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableScheduling
 public class CovidStatsApplication
 {
-	private static Logger logger = LogManager.getLogger(PaysCSVDB.class);
+	/**
+	 * Le logger pour la class qui contient le main
+	 */
+	private static Logger logger = LogManager.getLogger(CovidStatsApplication.class);
 
+	/**
+	 * la fonction main de l'application
+	 * @param args
+	 */
 	public static void main(String[] args)
 	{
 		SpringApplication.run(CovidStatsApplication.class, args);
 	}
 	
 	
+	/**
+	 * La fonction reloadDatafromCSV qui permet de récupérer les données chaque heure
+	 */
 	@Scheduled(fixedRate = 36000000)
 	public void reloadDataFromCSV()
 	{
