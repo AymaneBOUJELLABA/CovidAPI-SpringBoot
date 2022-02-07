@@ -69,7 +69,7 @@ public class PaysCSVDB
 			return true;
 		}catch(Exception e)
 		{
-			logger.error("Erreur dans le télechargement de fichier depuis url" + fileurl,e);
+			logger.error("Erreur dans le télechargement de fichier depuis url" + e);
 			return false;
 		}
 	}
@@ -119,7 +119,7 @@ public class PaysCSVDB
 			csvReader.close();
 		}catch(Exception e)
 		{
-			logger.error("Erreur dans la lecture de fichier depuis url",e);
+			logger.error("Erreur dans la lecture de fichier depuis url"+e);
 		}
         
 		return result;

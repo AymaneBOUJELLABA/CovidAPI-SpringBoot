@@ -57,8 +57,7 @@ public class CovidStatController
 			
 		}catch(Exception e)
 		{
-			logger.error("Erreur dans le controller oneCountryData !");
-			System.out.println("Erreur : " + e);
+			logger.error("Erreur dans le controller oneCountryData !"+e);
 		}
 		
 
@@ -88,8 +87,7 @@ public class CovidStatController
 			r = dataDAO.findAllByPaysAndDate(CountryName, d.toString());
 		}catch(Exception e)
 		{
-			logger.error("Erreur dans controller oneCountryDataWithDate !");
-			System.out.println("Erreur : " + e);
+			logger.error("Erreur dans controller oneCountryDataWithDate !"+e);
 		}
 		
 		logger.info("Fin de controller oneCountryDataWithDate !");
@@ -117,8 +115,7 @@ public class CovidStatController
 			r = dataDAO.findAllByPaysAndDate(CountryName, d.toString());
 		}catch(Exception e)
 		{
-			logger.error("Erreur dans controller TodayCountryData!");
-			System.out.println("Erreur : " + e);
+			logger.error("Erreur dans controller TodayCountryData!"+e);
 		}
 		
 		logger.info("Fin de controller TodayCountryData!");
