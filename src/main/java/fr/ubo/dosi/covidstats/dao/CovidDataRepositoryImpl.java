@@ -47,7 +47,7 @@ public class CovidDataRepositoryImpl implements CovidDataRepository {
 		//boucle qui ajouter les données dans la liste
 		for(CovidInfo c : db.getData())
 		{
-			if(c.getPays().toLowerCase().contains(pays.toLowerCase()))
+			if(c.getPays().toLowerCase().equals(pays.toLowerCase()))
 				result.add(c);
 			else
 				continue;
@@ -66,18 +66,20 @@ public class CovidDataRepositoryImpl implements CovidDataRepository {
 	public CovidInfo findAllByPaysAndDate(String pays, String date)
 	{
 		logger.info("Début de fonction findAllByPaysAndDate pour récupérer les informations d'une pays dans une date donnée");
-		
+		logger.info("date : " + date + " Pays : " + pays);
 		//boucle qui ajouter les données dans l'objet c
+		CovidInfo r = null;
 		for(CovidInfo c : db.getData())
 		{
-			if(c.getPays().toLowerCase().contains(pays.toLowerCase()) && c.getDate().equals(date))
-				return c;
+			if(c.getPays().toLowerCase().equals(pays.toLowerCase()) && c.getDate().equals(date))
+				r = c;
 			else
 				continue;
 		}
 		
 		logger.info("Fin de fonction findAllByPaysAndDate pour récupérer les informations d'une pays dans une date donnée");
-		return null;
+		logger.info("(Repository ) Data Found : " + r);
+		return r;
 	}
 
 	/**

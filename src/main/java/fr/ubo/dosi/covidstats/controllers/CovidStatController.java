@@ -86,6 +86,8 @@ public class CovidStatController
 			
 			//faire l'appel au DAO
 			r = dataDAO.findAllByPaysAndDate(CountryName, d.toString());
+			
+			logger.info("data found : " + r);
 		}catch(Exception e)
 		{
 			logger.error("Erreur dans controller oneCountryDataWithDate !"+e);
