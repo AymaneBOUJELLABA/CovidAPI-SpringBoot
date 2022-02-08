@@ -68,7 +68,7 @@ class CovidStatsApplicationTests
 	
 	@Test void checktodayPaysData_Null()
 	{
-		assertThat(dataDAO.findAllByPaysforToday("NANANAN")).isNull();
+		assertThat(dataDAO.findAllByPaysforToday("NANANAN").getPays()).isNull();
 	}
 	
 	@Test
