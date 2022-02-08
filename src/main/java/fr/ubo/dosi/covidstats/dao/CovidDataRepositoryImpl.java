@@ -8,7 +8,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Repository;
 
-import fr.ubo.dosi.covidstats.controllers.CovidStatController;
 import fr.ubo.dosi.covidstats.db.PaysCSVDB;
 import fr.ubo.dosi.covidstats.entities.CovidInfo;
 
@@ -88,6 +87,8 @@ public class CovidDataRepositoryImpl implements CovidDataRepository {
 	@Override
 	public CovidInfo findAllByPaysforToday(String pays)
 	{
+		pays = pays.toLowerCase();
+		CovidInfo r = new CovidInfo();
 		logger.info("Début de fonction findAllByPaysforToday pour récupérer les informations d'une pays pour le jour actuelle");
 		
 		//le variable pour récupérer la date de jour actuelle
@@ -96,14 +97,24 @@ public class CovidDataRepositoryImpl implements CovidDataRepository {
 		//boucle qui ajouter les données dans l'objet c
 		for(CovidInfo c : db.getData())
 		{
-			if(c.getPays().toLowerCase().contains(pays.toLowerCase()) && c.getDate().equals(d.toString()))
-				return c;
+			if(c.getPays().toLowerCase().equals(pays))
+			{
+				if(c.getDate().equals(d.toString()))
+					return c;
+				else
+				{
+					r.setPays(c.getPays());
+					r.setDate(c.getDate());
+				}
+			}
 			else
 				continue;
 		}
-		
+		r.setDeces(0);
+		r.setGuerisons(0);
+		r.setInfections(0);
 		logger.info("Fin de fonction findAllByPaysforToday pour récupérer les informations d'une pays pour le jour actuelle");
-		return null;
+		return r;
 	}
 
 }

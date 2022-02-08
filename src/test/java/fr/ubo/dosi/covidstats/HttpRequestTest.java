@@ -22,7 +22,7 @@ public class HttpRequestTest
 	
 	@Test
 	public void shouldReturnNotEmptyListAllPaysData() throws Exception
-	{
+	{	
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/api/oneCountryData?CountryName=maroc"))
 								.andDo(print())
 								.andExpect(status().isOk())

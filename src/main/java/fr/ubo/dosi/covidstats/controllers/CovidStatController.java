@@ -7,13 +7,13 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.ubo.dosi.covidstats.dao.CovidDataRepository;
-import fr.ubo.dosi.covidstats.db.PaysCSVDB;
 import fr.ubo.dosi.covidstats.entities.CovidInfo;
 
 
@@ -27,6 +27,7 @@ import fr.ubo.dosi.covidstats.entities.CovidInfo;
  * <i> GET /api/todayCountryData</i>
  *
  */
+@CrossOrigin
 @RestController
 @RequestMapping("/api")
 public class CovidStatController
@@ -105,14 +106,16 @@ public class CovidStatController
 		logger.info("Lancement de controller todayCountryData!");
 		
 		//initialiser l'objet du résultat
-		CovidInfo r = new CovidInfo();
+		CovidInfo r = null;
 		try
 		{
 			//récupérer la date de jour actuelle
 			LocalDate d = LocalDate.now();
+			logger.info("---searching for countryname = " + CountryName + " for today : " + d);
 			
 			//faire l'appel au DAO
-			r = dataDAO.findAllByPaysAndDate(CountryName, d.toString());
+			r = dataDAO.findAllByPaysforToday(CountryName);
+			logger.info("----- Data found : " + (r==null? "No Data Found":r) );
 		}catch(Exception e)
 		{
 			logger.error("Erreur dans controller TodayCountryData!"+e);
